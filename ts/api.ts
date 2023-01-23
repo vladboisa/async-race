@@ -1,17 +1,17 @@
-export * from './api.js'
-const serverURLpath = new URL(`http://127.0.0.1:3000`)
-const garageURLpath = new URL(`${serverURLpath} + /garage`);
-async function getCars(url:URL) {
+export const serverURLpath = new URL(`http://127.0.0.1:3000`)
+export const garageURLpath = new URL('garage', serverURLpath);
+
+export async function getCars(url:URL) {
   try {
     const res = await fetch(url);
     const data = await res.json();
   } catch (err) {
-    console.error(err);
+    throw (new Error('Error ocured :' + err));
   }
 }
-getCars(garageURLpath);
+//getCars(garageURLpath);
 
-async function createCar (url:URL, dataParams:object) {
+export async function createCar (url:URL, dataParams:object) {
 
   const options = {
     method: 'POST',
@@ -27,14 +27,14 @@ async function createCar (url:URL, dataParams:object) {
     console.log("🚀 ~ file: index.js:7 ~ getCars ~ data", data)
   }
   catch (err){
-    console.error(err);
+    throw (new Error('Error ocured :' + err));
   }
 }
 let params:object = {name: "vas",
-color: "zel"}
+color: "zel1"}
 createCar(garageURLpath,params)
 
-async function deleteCars (url:URL,id:number) {
+export async function deleteCars (url:URL,id:number) {
   const options = {
     method: 'DELETE',
   }
@@ -43,21 +43,24 @@ async function deleteCars (url:URL,id:number) {
   const data = await res.json();
 }
 catch (err){
-  console.error(err);
+  throw (new Error('Error ocured :' + err));
 }
 }
 //deleteCars(garageURLpath,1)
 
-async function getCarId (url:URL,id:number) {
+export async function getCarId (url:URL,id:number) {
   const options = {
     method: 'GET',
   }
  try {
   const res = await fetch(`${url}/${id}`,options);
   const data = await res.json();
+  console.log("🚀 ~ file: api.ts:58 ~ getCarId ~ data", data)
+
 }
 catch (err){
-  throw (new Error('Ne poshlo'));
+  throw (new Error('Error ocured :' + err.statusText));
 }
 }
-getCarId(garageURLpath,1)
+getCarId(garageURLpath,999)
+
